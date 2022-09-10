@@ -15,4 +15,5 @@ fn main() {
     print_jaso_bul(&"각");
     print_jaso_bul(&"고");
     print_jaso_bul(&"구");
+    print_jaso_bul(&"덇");
 }

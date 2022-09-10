@@ -110,7 +110,7 @@ pub fn build_jaso(code: u16) -> Result<Jaso, String> {
 ///    종성 2벌: 중성 'ㅓㅕㅚㅝㅟㅢㅣ'
 ///    종성 3벌: 중성 'ㅐㅒㅔㅖㅙㅞ'
 ///    종성 4벌: 중성 'ㅗㅛㅜㅠㅡ'
-pub fn build_bul(jaso: Jaso) -> Bul {
+pub fn build_bul(jaso: &Jaso) -> Bul {
     // 종성에 따라 초성, 중성의 벌이 정해진다.
     let cho: u8;
     let mid: u8;
@@ -154,4 +154,16 @@ pub fn build_bul(jaso: Jaso) -> Bul {
     }
 
     Bul { cho, mid, jong }
+}
+
+impl From<u16> for Jaso {
+    fn from(code: u16) -> Self {
+        build_jaso(code).unwrap()
+    }
+}
+
+impl From<&Jaso> for Bul {
+    fn from(jaso: &Jaso) -> Self {
+        build_bul(jaso)
+    }
 }
