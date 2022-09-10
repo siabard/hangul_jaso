@@ -3,5 +3,8 @@
 use hangul_jaso::*;
 
 fn main() {
-    println!("{:#x}", utf8_to_ucs2(&"가").unwrap());
+    let code = utf8_to_ucs2(&"얹").unwrap();
+
+    // 0b1010110000000000
+    println!("{:#0b} {:?}", code, build_jaso(code).unwrap());
 }

@@ -1,3 +1,20 @@
+#[derive(Debug, Copy, Clone)]
+pub struct Jaso {
+    cho: u8,
+    mid: u8,
+    jong: u8,
+}
+
+#[derive(Debug, Copy, Clone)]
+pub struct Bul {
+    cho: u8,
+    mid: u8,
+    jong: u8,
+}
+
+pub const NUM_OF_JONG: u16 = 28;
+pub const NUM_OF_MID: u16 = 21;
+
 /// UTF8로 표시된 (1~4바이트) 글자를 16비트(2바이트) UCS2 값으로 전환하기
 pub fn utf8_to_ucs2(s: &dyn ToString) -> Result<u16, String> {
     let str = s.to_string();
@@ -40,4 +57,28 @@ pub fn utf8_to_ucs2(s: &dyn ToString) -> Result<u16, String> {
     }
 
     Ok(result)
+}
+
+/// 초성, 중성, 조성의 값을 가져오기
+/// 유니코드에서 완성형 한글은 ac00(가)~d7a3(힣)까지 초성, 중성, 종성을 순서대로 조합해 배열한 것이다.
+/// 완성형 한글 코드 = (((초성번호 * 중성개수) + 중성번호) * 종성개수) + 종성번호 + ac00
+/// 중성갯수 : 21개
+/// 종성갯수 : 28개
+
+pub fn build_jaso(code: u16) -> Result<Jaso, String> {
+    // MLB (가장 좌측 비트가 1인지 검사)
+    if (code & 0b1000_0000_0000_0000) == 0b1000_0000_0000_0000 {
+        let hancode = code - 0xac00;
+        let jong = hancode % NUM_OF_JONG;
+        let mid = ((hancode - jong) / NUM_OF_JONG) % NUM_OF_MID;
+        let cho = (hancode - jong) / NUM_OF_JONG / NUM_OF_MID;
+
+        Ok(Jaso {
+            cho: cho as u8,
+            mid: mid as u8,
+            jong: jong as u8,
+        })
+    } else {
+        Err("Not Korean".to_string())
+    }
 }
