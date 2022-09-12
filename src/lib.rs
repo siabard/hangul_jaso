@@ -11,9 +11,9 @@ pub struct Jaso {
 
 #[derive(Default, Debug, Copy, Clone)]
 pub struct Bul {
-    pub cho: u8,
-    pub mid: u8,
-    pub jong: u8,
+    pub cho: Option<u8>,
+    pub mid: Option<u8>,
+    pub jong: Option<u8>,
 }
 
 pub const NUM_OF_JONG: u16 = 28;
@@ -112,44 +112,44 @@ pub fn build_jaso(code: u16) -> Result<Jaso, String> {
 ///    종성 4벌: 중성 'ㅗㅛㅜㅠㅡ'
 pub fn build_bul(jaso: &Jaso) -> Bul {
     // 종성에 따라 초성, 중성의 벌이 정해진다.
-    let cho: u8;
-    let mid: u8;
-    let jong: u8;
+    let cho: Option<u8>;
+    let mid: Option<u8>;
+    let jong: Option<u8>;
     if jaso.jong == 0 {
         cho = match jaso.mid {
-            0..=7 | 20 => 1,  // ㅏㅐㅑㅒㅓㅔㅕㅖㅣ
-            8 | 12 | 18 => 2, // ㅗㅛㅡ
-            13 | 17 => 3,     // ㅜㅠ
-            9..=11 | 19 => 4, // ㅘㅙㅚㅢ
-            14..=16 => 5,     // ㅝㅞㅟ
-            _ => 0,
+            0..=7 | 20 => Some(0),  // ㅏㅐㅑㅒㅓㅔㅕㅖㅣ
+            8 | 12 | 18 => Some(1), // ㅗㅛㅡ
+            13 | 17 => Some(2),     // ㅜㅠ
+            9..=11 | 19 => Some(3), // ㅘㅙㅚㅢ
+            14..=16 => Some(4),     // ㅝㅞㅟ
+            _ => None,
         };
 
-        mid = match jaso.cho {
-            0..=1 => 1,  // ㄱㅋ
-            2..=18 => 2, // ㄱㅋ 이외
-            _ => 0,
+        mid = match jaSo {
+            0..=1 => Some(0),  // ㄱㅋ
+            2..=18 => Some(1), // ㄱㅋ 이외
+            _ => None,
         };
-        jong = 0;
+        jong = None;
     } else {
         cho = match jaso.mid {
-            0..=7 | 20 => 6,            // ㅏㅐㅑㅒㅓㅔㅕㅖㅣ
-            8 | 12 | 13 | 17 | 18 => 7, // ㅗㅛㅜㅠㅡ
-            9..=11 | 14..=16 | 19 => 8, // ㅘㅙㅚㅢㅝㅞㅟ
-            _ => 0,
+            0..=7 | 20 => Some(5),            // ㅏㅐㅑㅒㅓㅔㅕㅖㅣ
+            8 | 12 | 13 | 17 | 18 => Some(6), // ㅗㅛㅜㅠㅡ
+            9..=11 | 14..=16 | 19 => Some(7), // ㅘㅙㅚㅢㅝㅞㅟ
+            _ => None,
         };
 
         mid = match jaso.cho {
-            0..=1 => 3,  // ㄱㅋ
-            2..=18 => 4, // ㄱㅋ 이외
-            _ => 0,
+            0..=1 => Some(2),  // ㄱㅋ
+            2..=18 => Some(3), // ㄱㅋ 이외
+            _ => None,
         };
         jong = match jaso.mid {
-            0 | 2 | 9 => 1,                      // ㅏㅑㅘ
-            4 | 6 | 11 | 14 | 16 | 19 | 20 => 2, // ㅓㅕㅚㅝㅟㅢㅣ
-            1 | 3 | 5 | 7 | 10 | 15 => 3,        // ㅐㅒㅔㅖㅙㅞ
-            8 | 12 | 13 | 17 | 18 => 4,          // ㅗㅛㅜㅠㅡ
-            _ => 0,
+            0 | 2 | 9 => Some(0),                      // ㅏㅑㅘ
+            4 | 6 | 11 | 14 | 16 | 19 | 20 => Some(1), // ㅓㅕㅚㅝㅟㅢㅣ
+            1 | 3 | 5 | 7 | 10 | 15 => Some(2),        // ㅐㅒㅔㅖㅙㅞ
+            8 | 12 | 13 | 17 | 18 => Some(3),          // ㅗㅛㅜㅠㅡ
+            _ => None,
         };
     }
 
