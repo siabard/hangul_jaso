@@ -5,7 +5,7 @@ use hangul_jaso::*;
 fn print_jaso_bul(t: &dyn ToString) {
     let code = utf8_to_ucs2(t).unwrap();
     let jaso = build_jaso(code).unwrap();
-    let bul = build_bul(jaso);
+    let bul = build_bul(&jaso);
 
     println!("{:#0x} {:?} {:?}", code, jaso, bul)
 }

@@ -4,16 +4,16 @@
 
 #[derive(Default, Debug, Copy, Clone)]
 pub struct Jaso {
-    cho: u8,
-    mid: u8,
-    jong: u8,
+    pub cho: u8,
+    pub mid: u8,
+    pub jong: u8,
 }
 
 #[derive(Default, Debug, Copy, Clone)]
 pub struct Bul {
-    cho: u8,
-    mid: u8,
-    jong: u8,
+    pub cho: u8,
+    pub mid: u8,
+    pub jong: u8,
 }
 
 pub const NUM_OF_JONG: u16 = 28;
