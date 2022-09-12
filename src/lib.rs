@@ -125,7 +125,7 @@ pub fn build_bul(jaso: &Jaso) -> Bul {
             _ => None,
         };
 
-        mid = match jaSo {
+        mid = match jaso.cho {
             0..=1 => Some(0),  // ㄱㅋ
             2..=18 => Some(1), // ㄱㅋ 이외
             _ => None,
