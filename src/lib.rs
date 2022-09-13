@@ -2,6 +2,15 @@
 /// 중성 ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ
 /// 종성 ㄱㄲ(ㄱㅅ)ㄴ(ㄴㅈ)(ㄴㅎ)ㄷㄹ(ㄹㄱ)(ㄹㅁ)(ㄹㅂ)(ㄹㅅ)(ㄹㅌ)(ㄹㅍ)(ㄹㅎ)ㅁㅂ(ㅂㅅ)ㅅㅆㅇㅈㅊㅋㅌㅍㅎ
 
+pub enum Languages {
+    Ascii,
+    Hangul,
+    HangulJamo,
+    Kana,
+    Arrow,
+    NotImplemented,
+}
+
 #[derive(Default, Debug, Copy, Clone)]
 pub struct Jaso {
     pub cho: u8,
@@ -61,6 +70,17 @@ pub fn utf8_to_ucs2(s: &dyn ToString) -> Result<u16, String> {
     }
 
     Ok(result)
+}
+
+pub fn ucs2_language(code: u16) -> Languages {
+    match code {
+        0x0000..=0x007f => Languages::Ascii,
+        0xac00..=0xd7a3 => Languages::Hangul,
+        0x3131..=0x3163 => Languages::HangulJamo,
+        0x3040..=0x30ff => Languages::Kana,
+        0x2190..=0x2199 => Languages::Arrow,
+        _ => Languages::NotImplemented,
+    }
 }
 
 /// 초성, 중성, 조성의 값을 가져오기
