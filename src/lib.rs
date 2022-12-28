@@ -6,7 +6,7 @@
 //! - 종성 ㄱㄲ(ㄱㅅ)ㄴ(ㄴㅈ)(ㄴㅎ)ㄷㄹ(ㄹㄱ)(ㄹㅁ)(ㄹㅂ)(ㄹㅅ)(ㄹㅌ)(ㄹㅍ)(ㄹㅎ)ㅁㅂ(ㅂㅅ)ㅅㅆㅇㅈㅊㅋㅌㅍㅎ
 
 /// ucs-2 코드 값으로 확인되는 해당 문자열의 언어
-#[derive(PartialEq, Eq, Hash)]
+#[derive(Debug, PartialEq, Eq, Hash)]
 pub enum Languages {
     Ascii,
     Hangul,
